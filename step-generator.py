@@ -56,7 +56,8 @@ def compile(questions: list):
             q_tex = data[:data.find("\\begin{document}")]+ "\\begin{document}" + '\n' \
                 + q_str + '\n' + data[data.find("\\end{document}"):]
 
-            with open(t_dir + "/{}-{}-{}.tex".format(year, paper, question), 'w') as tex_h:
+            tex_name = os.path.join(t_dir, "{}-{}-{}.tex".format(year, paper, question))
+            with open(tex_name, 'w') as tex_h:
                 tex_h.write(q_tex)
 
             inner_tex += "\\import{" + "{}-{}-{}".format(year, paper, question) + '}\n'
@@ -64,7 +65,7 @@ def compile(questions: list):
         main_tex = MAIN_TEX.format(inner_tex)
         file_name = "step-paper-"+str(datetime.datetime.today())
 
-        with open(t_dir + '/' + file_name + ".tex", 'w') as tex_h:
+        with open(os.path.join(t_dir, file_name + ".tex"), 'w') as tex_h:
             tex_h.write(main_tex)
 
         subprocess.call(["latexmk", "-f", "-pdf", \
