@@ -51,7 +51,8 @@ def compile(questions: list):
             for n in range(question):
                 qIndex = data.find("\\begin{question}", qIndex+1)
 
-            q_str = data[qIndex:data.find("\\end{question}", qIndex)] + "\n\\textbf{{(S{0} {1} Q{2})}}\n".format(paper, year, question) + "\\end{question}"
+            q_str = data[qIndex:data.find("\\end{question}", qIndex)] + \
+                "\n\\textbf{{(S{0} {1} Q{2})}}\n".format(paper, year, question) + "\\end{question}"
             q_tex = data[:data.find("\\begin{document}")]+ "\\begin{document}" + '\n' \
                 + q_str + '\n' + data[data.find("\\end{document}"):]
 
