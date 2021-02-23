@@ -70,7 +70,7 @@ def compile(questions: list):
 
         subprocess.call(["latexmk", "-f", "-pdf", \
             "--interaction=nonstopmode", file_name], cwd=t_dir)
-        shutil.move(t_dir + '/' + file_name + ".pdf", os.getcwd())
+        shutil.move(os.path.join(t_dir, file_name + ".pdf"), os.getcwd())
 
 def main(argc: int, argv: list):
     if argc < 2:
