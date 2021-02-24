@@ -5,6 +5,15 @@ USAGE = """USAGE
 """
 
 MAIN_TEX = """\documentclass{{combine}}
+\\RequirePackage{{geometry}}
+\\geometry{{%
+    a4paper,
+    lmargin=2cm,
+    rmargin=2.5cm,
+    tmargin=3.5cm,
+    bmargin=2.5cm,
+    footskip=12pt,
+    headheight=24pt}}
 \\begin{{document}}
 \\begin{{papers}}
 \\let\\clearpage\\relax
