@@ -4,7 +4,7 @@ import os, sys, shutil, random, requests, datetime, tempfile, subprocess
 USAGE = """USAGE
 """
 
-MAIN_TEX = """\documentclass{{combine}}
+MAIN_TEX = """\documentclass[a4,11pt]{{combine}}
 \\RequirePackage{{geometry}}
 \\geometry{{%
     a4paper,
@@ -47,7 +47,8 @@ def compile(questions: list):
         inner_tex = ""
         qNum = -1
         for year, paper, question in questions:
-            url = DB_TEX_ENDPOINT.format(year, paper, question)
+            year_str = str(year).rjust(2, '0')
+            url = DB_TEX_ENDPOINT.format(year_str, paper, question)
             res = requests.get(url)
             res.raise_for_status()
 
@@ -61,7 +62,7 @@ def compile(questions: list):
                 qIndex = data.find("\\begin{question}", qIndex+1)
 
             q_str = data[qIndex:data.find("\\end{question}", qIndex)] + \
-                "\n\\textbf{{(S{0} {1} Q{2})}}\n".format(paper, year, question) + "\\end{question}"
+                "\n\\textbf{{(S{0} {1} Q{2})}}\n".format(paper, year_str, question) + "\\end{question}"
             q_tex = data[:data.find("\\begin{document}")]+ "\\begin{document}" + '\n' \
                 + q_str + '\n' + data[data.find("\\end{document}"):]
 
