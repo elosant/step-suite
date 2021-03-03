@@ -11,7 +11,15 @@ def filter(pool, mark_range, spreadsheet_name):
                 try:
                     year = int(row[0])
                     question_number = int(sheet[1][j])
-                    entry = (entry == '?') and -1 or int(entry)
+
+                    if entry == "":
+                        entry = -1
+                    elif entry == "?":
+                        entry = 0
+                    else:
+                        entry = int(entry) or -2
+                        
+
                     spreadsheet_pool.append((paper, year, question_number, entry))
                 except:
                     continue
