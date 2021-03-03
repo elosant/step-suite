@@ -12,10 +12,10 @@ def main():
             default="all", nargs='*',
             choices=["all", "pure", "mech", "stats"],
             help="List of categories to choose questions from. A category is one of "
-            "'pure', 'mech', 'stats' or 'any'. For example, passing '--category stats mech' "
-            "chooses statistics and mechanics questions. Passing 'any' considers every category. "
+            "'pure', 'mech', 'stats' or 'all'. For example, passing '--category stats mech' "
+            "chooses statistics and mechanics questions. Passing 'all' considers every category. "
             "NOTE: Questions before 1994 are not given a category and are thus not chosen unless "
-            "'any' is passed.")
+            "'all' is passed.")
 
     parser.add_argument("-c", "--count",
             type=int, default=6,
