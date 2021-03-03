@@ -1,6 +1,6 @@
 import pyexcel_ods as pe
 
-def filter(pool, marks_below, spreadsheet_name):
+def filter(pool, mark_range, spreadsheet_name):
     spreadsheet = pe.get_data(spreadsheet_name)
 
     spreadsheet_pool = []
@@ -19,7 +19,7 @@ def filter(pool, marks_below, spreadsheet_name):
     filteredPool = []
 
     for paper, year, question, mark in spreadsheet_pool:
-        if mark < marks_below and (paper, year, question) in pool:
+        if mark_range[0] <= mark <=mark_range[1] and (paper, year, question) in pool:
             filteredPool.append((paper, year, question))
 
     return filteredPool
