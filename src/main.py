@@ -1,7 +1,7 @@
 import question, paper
 import sys, argparse, itertools, random
 from questionPool import questionTuplePool
-import categories, during, marks_between, papers, topics, latexsearch, only_attempted_qns
+import categories, during, marks_between, papers, topics, latexsearch
 
 def main():
     parser = argparse.ArgumentParser(prog="stepgen",
@@ -55,12 +55,12 @@ def main():
             "NOTE: The spreadsheet must be an ods file! "
             "NOTE: If --marks-below is given then this argument must also be given")
 
-    parser.add_argument("-tt", "--title",
+    parser.add_argument("-t", "--title",
             help="TITLE is used as the file name of the generated paper(s) and is shown in the paper "
             "itself at the top (as a LaTeX \section). By default this is automatically generated from "
             "other arguments given.")
 
-    parser.add_argument("-t", "--topics",
+    parser.add_argument("-tt", "--topics",
             nargs='*',
             help="If passed, stepdatabase.maths.org will be queried for questions with tags with each "
             "TOPIC individually. For example if '--topics \"complex numbers\"  \"vectors\"' is passed then "
@@ -74,12 +74,6 @@ def main():
                 help= "Only questions which contain LATEXSEARCH in their latex file will be returned. For example "
                 "if '--latexsearch \"\\sum \"' is passed then only questions containing sigmas will be returned."
         )
-
-    parser.add_argument("-oa", "--only-attempted-qns",
-        default=True,
-        help="If this is set to true (as it is by default), then only questions attempted or marked with a (?)"
-             "are included in the papers generated. This is to prevent mock papers from being spoiled.")
-
 
     args = parser.parse_args()
     # TODO: Use set instead of list
