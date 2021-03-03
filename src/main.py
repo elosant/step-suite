@@ -1,7 +1,7 @@
 import question, paper
 import sys, argparse, itertools, random
 from questionPool import questionTuplePool
-import categories, during, marks_below, papers, topics
+import categories, during, marks_between, papers, topics, latexsearch, only_attempted_qns
 
 def main():
     parser = argparse.ArgumentParser(prog="stepgen",
@@ -28,11 +28,12 @@ def main():
             "For example, passing '--during 1990 2010' yields questions from [1990, 2010]. Simply "
             "passing '--during 1990' yields questions from 1990.")
 
-    parser.add_argument("-m", "--marks-below",
-            type=int,
-            help="The spreadsheet file given by --spreadsheet is read and questions marked strictly "
-            "below MARKS_BELOW are chosen. Entries labelled '?' in the spreadsheet are always "
-            "considered as possible questions, irrespective of the value of MARKS_BELOW. "
+    parser.add_argument("-m", "--marks-between",
+            type=int, nargs="*", default=[0, 20],
+            help="The spreadsheet file given by --spreadsheet is read and questions have a mark "
+            "inclusively within the interval are chosen. Entries labelled '?' in the spreadsheet are always "
+            "considered as possible questions, irrespective of the value of MARKS_BELOW."
+            "An unmarked question is treated as having a mark of -1."
             "NOTE: If MARKS_BELOW is given, then a suitable ods spreadsheet must also be given!")
 
     parser.add_argument("-p", "--papers",
@@ -54,12 +55,12 @@ def main():
             "NOTE: The spreadsheet must be an ods file! "
             "NOTE: If --marks-below is given then this argument must also be given")
 
-    parser.add_argument("-t", "--title",
+    parser.add_argument("-tt", "--title",
             help="TITLE is used as the file name of the generated paper(s) and is shown in the paper "
             "itself at the top (as a LaTeX \section). By default this is automatically generated from "
             "other arguments given.")
 
-    parser.add_argument("--topics",
+    parser.add_argument("-t", "--topics",
             nargs='*',
             help="If passed, stepdatabase.maths.org will be queried for questions with tags with each "
             "TOPIC individually. For example if '--topics \"complex numbers\"  \"vectors\"' is passed then "
@@ -67,12 +68,25 @@ def main():
             "tag 'vectors'. The union of the two results are then considered as possible questions. "
             "NOTE: Wrap each search query around single or double quotes!")
 
+    parser.add_argument("-l", "--latexsearch",
+                default = ["all"],
+                nargs ='*',
+                help= "Only questions which contain LATEXSEARCH in their latex file will be returned. For example "
+                "if '--latexsearch \"\\sum \"' is passed then only questions containing sigmas will be returned."
+        )
+
+    parser.add_argument("-oa", "--only-attempted-qns",
+        default=True,
+        help="If this is set to true (as it is by default), then only questions attempted or marked with a (?)"
+             "are included in the papers generated. This is to prevent mock papers from being spoiled.")
+
+
     args = parser.parse_args()
     # TODO: Use set instead of list
     pool = questionTuplePool
 
-    if args.marks_below:
-        pool = marks_below.filter(pool, args.marks_below, args.spreadsheet)
+    if args.marks_between:
+        pool = marks_between.filter(pool, args.marks_between, args.spreadsheet)
     if args.topics:
         pool = topics.filter(pool, args.topics)
 
@@ -82,6 +96,8 @@ def main():
     pool = categories.filter(pool, args.categories)
     pool = during.filter(pool, args.during)
     pool = papers.filter(pool, args.papers)
+    pool = latexsearch.filter(pool, args.latexsearch)
+
     random.shuffle(pool)
 
     # Partition pool into count sized subsets
