@@ -16,7 +16,7 @@ class Paper:
                 tex = tex_file.read()
 
             # FIXME
-            # tex = tex.replace("%title", r"\title{" + self.title + '}')
+            tex = tex.replace("%title", r"\section*{" + self.title + r'}')
 
             for i, question in enumerate(self.questions):
                 question_file_name = "{}_{}_{}".format(question.paper,
