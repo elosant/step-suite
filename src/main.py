@@ -29,7 +29,7 @@ def main():
             "passing '--during 1990' yields questions from 1990.")
 
     parser.add_argument("-m", "--marks-between",
-            type=int, nargs="*", default=[0, 20],
+            type=int, nargs="*",
             help="The spreadsheet file given by --spreadsheet is read and questions have a mark "
             "inclusively within the interval are chosen. Entries labelled '?' in the spreadsheet are always "
             "considered as possible questions, irrespective of the value of MARKS_BELOW."
@@ -55,12 +55,12 @@ def main():
             "NOTE: The spreadsheet must be an ods file! "
             "NOTE: If --marks-below is given then this argument must also be given")
 
-    parser.add_argument("-t", "--title",
+    parser.add_argument("-tit", "--title",
             help="TITLE is used as the file name of the generated paper(s) and is shown in the paper "
             "itself at the top (as a LaTeX \section). By default this is automatically generated from "
             "other arguments given.")
 
-    parser.add_argument("-tt", "--topics",
+    parser.add_argument("-t", "--topics",
             nargs='*',
             help="If passed, stepdatabase.maths.org will be queried for questions with tags with each "
             "TOPIC individually. For example if '--topics \"complex numbers\"  \"vectors\"' is passed then "
@@ -91,6 +91,7 @@ def main():
     pool = during.filter(pool, args.during)
     pool = papers.filter(pool, args.papers)
     pool = latexsearch.filter(pool, args.latexsearch)
+    pool = topics.filter(pool, args.topics)
 
     random.shuffle(pool)
 
