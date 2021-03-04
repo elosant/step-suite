@@ -9,9 +9,10 @@ def filter(pool, searches):
     for i, question_tuple in enumerate(pool):
         temp_question = question.Question(*question_tuple)
         for j, search in enumerate(searches):
-            if temp_question.tex.lower().find(search.lower()) == -1:
+            if temp_question.tex.lower().find(search.lower()) != -1:
+                filteredPool.append(question_tuple)
                 continue
 
-            filteredPool.append(question_tuple)
+            
 
     return filteredPool
