@@ -61,7 +61,7 @@ def main():
             "other arguments given.")
 
     parser.add_argument("-t", "--topics",
-            nargs='*',
+            nargs='*', default = ["all"],
             help="If passed, stepdatabase.maths.org will be queried for questions with tags with each "
             "TOPIC individually. For example if '--topics \"complex numbers\"  \"vectors\"' is passed then "
             "the program will search stepdatabase for questions with tag 'complex numbers' and then "

@@ -12,6 +12,8 @@ def filter(pool, topics):
     question_topic = {}
     filtered_pool = []
 
+    
+
     with open(path.join(src_dir, rel_dir), "r") as step_qns:
         soup = BeautifulSoup(step_qns.read(), "html.parser")
 
@@ -28,14 +30,12 @@ def filter(pool, topics):
                 pass
 
     for i, question in enumerate(pool):
-        name = str(question[1] % 100).zfill(2) + "-S" + str(question[0]) + "-Q" + str(question[2])
-        print(name)
+        name = str(question[1])[2:4] + "-S" + str(question[0]) + "-Q" + str(question[2])
         if name in question_topic:
             qn_topic = question_topic[name]
             append = False
 
             for topic in topics:
-                print(topic, qn_topic.find(topic.lower()))
                 if qn_topic.find(topic.lower()) != -1:
                     append = True
 
