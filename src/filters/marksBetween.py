@@ -29,5 +29,5 @@ class MarksBetween(QuestionPoolFilter):
                         continue
 
     def filter(self, question_tuple: (int, int, int)) -> bool:
-        return (-1 in self.markRange) or (hash(question_tuple) in self.spreadsheetMap \
+        return (-1 in self.markRange and hash(question_tuple) not in self.spreadsheetMap) or (hash(question_tuple) in self.spreadsheetMap \
             and self.spreadsheetMap[hash(question_tuple)] in self.markRange)
